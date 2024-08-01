@@ -51,7 +51,7 @@ class DeviceDriverBase {
     return '';
   }
 
-  async tap(point) {
+  async tap(point, _bundleId) {
     return '';
   }
 

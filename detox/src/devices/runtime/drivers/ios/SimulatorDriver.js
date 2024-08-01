@@ -11,6 +11,9 @@ const log = require('../../../../utils/logger').child({ cat: 'device' });
 const pressAnyKey = require('../../../../utils/pressAnyKey');
 const XCUITestRunner = require("../../../../ios/XCUITestRunner");
 const IosDriver = require('./IosDriver');
+const traceInvocationCall = require('../../../../utils/traceInvocationCall').bind(null, log);
+const { actionDescription } = require('../../../../utils/invocationTraceDescriptions');
+const { assertTraceDescription } = require('../../../../utils/assertArgument');
 
 /**
  * @typedef SimulatorDriverDeps { DeviceDriverDeps }
@@ -38,6 +41,20 @@ class SimulatorDriver extends IosDriver {
     this._headless = headless;
     this._deviceName = `${udid} (${this._type})`;
     this._applesimutils = deps.applesimutils;
+  }
+
+  withAction(xcuitestRunner, action, traceDescription, ...params) {
+    assertTraceDescription(traceDescription);
+
+    const invocation = {
+      ...(params.length !== 0 && { params }),
+      type: 'systemAction',
+      ...(this.index !== undefined && { systemAtIndex: this.index }),
+      systemAction: action
+    };
+    //traceDescription = actionDescription.full(traceDescription);
+
+    return traceInvocationCall(traceDescription, invocation, xcuitestRunner.execute(invocation))
   }
 
   getExternalId() {
@@ -111,9 +128,12 @@ class SimulatorDriver extends IosDriver {
     await this.emitter.emit('terminateApp', { deviceId: udid, bundleId });
   }
 
-  async tap(points, bundleId) {
-    const xcuitestRunner = new XCUITestRunner({ id: getExternalId(), bundleId });
-    xcuitestRunner.execute('')
+  async tap(point, _bundleId) {
+    const xcuitestRunner = new XCUITestRunner({ runtimeDevice: {id: this.getExternalId(), _bundleId}});
+    let x = point?.x || 100;
+    let y = point?.y || 100;
+    const traceDescription = actionDescription.tap({x, y});
+    return this.withAction(xcuitestRunner, 'coordinateTap', traceDescription, x.toString(), y.toString());
   }
 
   async setBiometricEnrollment(yesOrNo) {

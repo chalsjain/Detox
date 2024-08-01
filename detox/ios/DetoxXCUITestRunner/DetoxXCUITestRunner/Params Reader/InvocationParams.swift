@@ -34,7 +34,7 @@ struct InvocationParams: Codable {
     } else if let webPredicate = try? container.decode(Predicate.self, forKey: .webPredicate) {
       predicate = webPredicate
     } else {
-      throw Error.dataCorruptedError("predicate")
+      predicate = nil
     }
 
     // Handle both systemAtIndex and webAtIndex for the atIndex property

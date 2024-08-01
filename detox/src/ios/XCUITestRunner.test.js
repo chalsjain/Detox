@@ -13,7 +13,7 @@ jest.mock('../utils/environment');
 
 describe('XCUITestRunner', () => {
     const runtimeDevice = { id: 'simulator-id', _bundleId: 'bundle-id' };
-    const runner = new XCUITestRunner({ id: runtimeDevice.id, bundleId: runtimeDevice._bundleId });
+    const runner = new XCUITestRunner({runtimeDevice});
     const invocationParams = { key: 'value' };
     const base64InvocationParams = Buffer.from(JSON.stringify(invocationParams)).toString('base64');
     const runnerPath = '/path/to/xcuitest-runner';
