@@ -279,7 +279,7 @@ class RuntimeDevice {
   }
 
   async tap(point) {
-    await this.deviceDriver.tap(point);
+    await this.deviceDriver.tap(point, this._bundleId);
   }
 
   async longPress(point, duration) {

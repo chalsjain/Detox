@@ -2,7 +2,7 @@ import Foundation
 
 struct InvocationParams: Codable {
   let type: InvocationType
-  let predicate: Predicate
+  let predicate: Predicate?
   let atIndex: Int?
   let action: Action?
   let expectation: Expectation?
@@ -157,6 +157,7 @@ extension InvocationParams.Predicate {
 extension InvocationParams {
   enum Action: String, Codable {
     case tap
+    case coordinateTap
     case typeText
     case replaceText
     case clearText

@@ -9,7 +9,7 @@ const DetoxRuntimeError = require('../../../../errors/DetoxRuntimeError');
 const getAbsoluteBinaryPath = require('../../../../utils/getAbsoluteBinaryPath');
 const log = require('../../../../utils/logger').child({ cat: 'device' });
 const pressAnyKey = require('../../../../utils/pressAnyKey');
-
+const XCUITestRunner = require("../../../../ios/XCUITestRunner");
 const IosDriver = require('./IosDriver');
 
 /**
@@ -111,6 +111,11 @@ class SimulatorDriver extends IosDriver {
     await this.emitter.emit('terminateApp', { deviceId: udid, bundleId });
   }
 
+  async tap(points, bundleId) {
+    const xcuitestRunner = new XCUITestRunner({ id: getExternalId(), bundleId });
+    xcuitestRunner.execute('')
+  }
+
   async setBiometricEnrollment(yesOrNo) {
     await this._applesimutils.setBiometricEnrollment(this.udid, yesOrNo);
   }
@@ -200,10 +205,6 @@ class SimulatorDriver extends IosDriver {
 
   async resetStatusBar() {
     await this._applesimutils.statusBarReset(this.udid);
-  }
-
-  async tap(points) {
-    
   }
 }
 
