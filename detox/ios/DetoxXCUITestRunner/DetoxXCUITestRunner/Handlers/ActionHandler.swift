@@ -7,17 +7,25 @@ import Foundation
 import XCTest
 
 class ActionHandler {
-  func handle(from params: InvocationParams, on element: XCUIElement) throws {
+    
+    func findElement(from params: InvocationParams, predicateHandler: PredicateHandler) -> XCUIElement {
+        
+        let element = predicateHandler.findElement(using: params)
 
-    let exists = element.waitForExistence(timeout: .defaultTimeout)
-    DTXAssert(
-      exists,
-      "Action failed, element with matcher `\(params.matcherDescription)` does not exist"
-    )
-
+      let exists = element.waitForExistence(timeout: .defaultTimeout)
+      DTXAssert(
+        exists,
+        "Action failed, element with matcher `\(params.matcherDescription)` does not exist"
+      )
+        return element;
+    }
+    
+  func handle(from params: InvocationParams, predicateHandler: PredicateHandler) throws {
+      
     guard let action = params.action else { return }
     switch action {
       case .tap:
+        let element = findElement(from: params, predicateHandler: predicateHandler);
         element.tap()
 
       case .typeText:
@@ -25,6 +33,7 @@ class ActionHandler {
           throw Error.missingTypeTextParam
         }
 
+        let element = findElement(from: params, predicateHandler: predicateHandler);
         element.typeTextOnEnd(text)
 
       case .replaceText:
@@ -32,9 +41,11 @@ class ActionHandler {
           throw Error.missingTypeTextParam
         }
 
+        let element = findElement(from: params, predicateHandler: predicateHandler);
         element.replaceText(text)
 
       case .clearText:
+        let element = findElement(from: params, predicateHandler: predicateHandler);
         element.clearText()
         
       case .coordinateTap:
