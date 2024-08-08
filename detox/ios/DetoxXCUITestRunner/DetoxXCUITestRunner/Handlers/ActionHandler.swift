@@ -45,7 +45,7 @@ class ActionHandler {
         
         do {
             // create the normalized vector:
-            let width = try XCUIApplication.appUnderTest().frame.width
+            //let width = try XCUIApplication.appUnderTest().frame.width
             // ...
             let normalizedVector = CGVector(dx: 0, dy: 0)
             //let point = CGPoint(x: x,y: y)
@@ -55,7 +55,7 @@ class ActionHandler {
             let coordinate = normalized.withOffset(CGVector(dx: x, dy: y))
             coordinate.tap()
             
-            coordinate.tap()
+            //coordinate.tap()
         } catch  {
             throw Error.failedToTapDeviceByCoordinates
         }
