@@ -49,24 +49,18 @@ class ActionHandler {
         element.clearText()
         
       case .coordinateTap:
-        
         guard let x = Int(params.params?.first ?? "100"), let y = Int(params.params?[1] ?? "100") else {
             throw Error.missingTypeTextParam
         }
         
         do {
-            // create the normalized vector:
-            //let width = try XCUIApplication.appUnderTest().frame.width
-            // ...
-            let normalizedVector = CGVector(dx: 0, dy: 0)
-            //let point = CGPoint(x: x,y: y)
-            let normalized = try XCUIApplication.appUnderTest().coordinate(withNormalizedOffset: normalizedVector)
-            
-            //let normalized = webView.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
-            let coordinate = normalized.withOffset(CGVector(dx: x, dy: y))
+            let screenFrame = try XCUIApplication.appUnderTest().frame
+            let normalizedX = CGFloat(x) / screenFrame.width
+            let normalizedY = CGFloat(y) / screenFrame.height
+            let normalizedPoint = CGVector(dx: normalizedX, dy: normalizedY)
+            let coordinate = try XCUIApplication.appUnderTest().coordinate(withNormalizedOffset: normalizedPoint)
             coordinate.tap()
             
-            //coordinate.tap()
         } catch  {
             throw Error.failedToTapDeviceByCoordinates
         }

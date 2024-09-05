@@ -792,7 +792,7 @@ declare global {
 
             /**
              * Perform a long press at arbitrary coordinates on the default display specified by the user. Custom press duration if needed. Currently only available in the Android Simulator.
-             * @param point coordinates in the element's coordinate space. Optional (default is the center of the element). defaults: x: 100, y: 100
+             * @param point coordinates in the device's coordinate space. Optional (default is the center of the element). defaults: x: 100, y: 100
              * @param duration custom press duration time, in milliseconds. Optional (defaults to the standard long-press duration for the platform).
              *      Custom durations should be used cautiously, as they can affect test consistency and user experience expectations.
              *      They are typically necessary when testing components that behave differently from the platform's defaults or when simulating unique user interactions.
