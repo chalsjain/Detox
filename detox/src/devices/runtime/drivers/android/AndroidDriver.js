@@ -245,17 +245,19 @@ class AndroidDriver extends DeviceDriverBase {
     await this.invocationManager.execute(call);
   }
 
-  async tap(point, shouldIgnoreStatusBar = false) {
+  async tap(point, shouldIgnoreStatusBar) {
     let x = point?.x ?? 100;
     let y = point?.y ?? 100;
-    const call = EspressoDetoxApi.tap(x, y, shouldIgnoreStatusBar);
+    let _shouldIgnoreStatusBar = shouldIgnoreStatusBar ?? false;
+    const call = EspressoDetoxApi.tap(x, y, _shouldIgnoreStatusBar);
     await this.invocationManager.execute(call);
   }
 
-  async longPress(point, duration) {
+  async longPress(point, duration, shouldIgnoreStatusBar) {
     let x = point?.x ?? 100;
     let y = point?.y ?? 100;
-    const call = !!duration ? EspressoDetoxApi.longPress(x, y, duration): EspressoDetoxApi.longPress(x, y);
+    let _shouldIgnoreStatusBar = shouldIgnoreStatusBar ?? false;
+    const call = !!duration ? EspressoDetoxApi.longPress(x, y, duration, _shouldIgnoreStatusBar): EspressoDetoxApi.longPress(x, y, _shouldIgnoreStatusBar);
     await this.invocationManager.execute(call);
   }
   

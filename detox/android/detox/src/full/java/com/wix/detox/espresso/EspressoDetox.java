@@ -122,7 +122,7 @@ public class EspressoDetox {
         });
     }
 
-    public static void tap(Integer x, Integer y) {
+    public static void tap(Integer x, Integer y, boolean shouldIgnoreStatusBar) {
         onView(isRoot()).perform(new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -136,7 +136,7 @@ public class EspressoDetox {
 
             @Override
             public void perform(UiController uiController, View view) {
-                int adjustedY = true ? y + UiAutomatorHelper.getStatusBarHeight(view) : y;
+                int adjustedY = shouldIgnoreStatusBar ? y + UiAutomatorHelper.getStatusBarHeight(view) : y;
                 ViewAction action = DetoxAction.tapAtLocation(x, adjustedY);
                 action.perform(uiController, view);
                 uiController.loopMainThreadUntilIdle();
@@ -144,11 +144,11 @@ public class EspressoDetox {
         });
     }
 
-    public static void longPress(Integer x, Integer y) {
-        longPress(x, y, null);
+    public static void longPress(Integer x, Integer y, boolean shouldIgnoreStatusBar) {
+        longPress(x, y, null, shouldIgnoreStatusBar);
     }
 
-    public static void longPress(Integer x, Integer y, Integer duration) {
+    public static void longPress(Integer x, Integer y, Integer duration, boolean shouldIgnoreStatusBar) {
         onView(isRoot()).perform(new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -162,7 +162,8 @@ public class EspressoDetox {
 
             @Override
             public void perform(UiController uiController, View view) {
-                ViewAction action = DetoxAction.longPress(x, y, duration);
+                int adjustedY = shouldIgnoreStatusBar ? y + UiAutomatorHelper.getStatusBarHeight(view) : y;
+                ViewAction action = DetoxAction.longPress(x, adjustedY, duration);
                 action.perform(uiController, view);
                 uiController.loopMainThreadUntilIdle();
             }

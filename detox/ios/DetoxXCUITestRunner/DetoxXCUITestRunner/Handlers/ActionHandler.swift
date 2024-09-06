@@ -20,6 +20,24 @@ class ActionHandler {
         return element;
     }
     
+    func getNormalizedCoordinate(from params: InvocationParams) throws -> XCUICoordinate {
+        do {
+            guard let x = Int(params.params?.first ?? "100"), let y = Int(params.params?[1] ?? "100") else {
+                throw Error.missingTypeTextParam
+            }
+            
+            let screenFrame = try XCUIApplication.appUnderTest().frame
+            let normalizedX = CGFloat(x) / screenFrame.width
+            let normalizedY = CGFloat(y) / screenFrame.height
+            let normalizedPoint = CGVector(dx: normalizedX, dy: normalizedY)
+            let coordinate = try XCUIApplication.appUnderTest().coordinate(withNormalizedOffset: normalizedPoint)
+            
+            return coordinate;
+        } catch  {
+            throw Error.failedToTapDeviceByCoordinates
+        }
+    }
+    
   func handle(from params: InvocationParams, predicateHandler: PredicateHandler) throws {
       
     guard let action = params.action else { return }
@@ -49,18 +67,17 @@ class ActionHandler {
         element.clearText()
         
       case .coordinateTap:
-        guard let x = Int(params.params?.first ?? "100"), let y = Int(params.params?[1] ?? "100") else {
-            throw Error.missingTypeTextParam
+        do {
+            try getNormalizedCoordinate(from: params).tap();
+        } catch  {
+            throw Error.failedToTapDeviceByCoordinates
+        }
+      case .coordinateLongPress:
+        guard let pressDuration = Double(params.params?[2] ?? "1") else { throw Error.missingTypeTextParam
         }
         
         do {
-            let screenFrame = try XCUIApplication.appUnderTest().frame
-            let normalizedX = CGFloat(x) / screenFrame.width
-            let normalizedY = CGFloat(y) / screenFrame.height
-            let normalizedPoint = CGVector(dx: normalizedX, dy: normalizedY)
-            let coordinate = try XCUIApplication.appUnderTest().coordinate(withNormalizedOffset: normalizedPoint)
-            coordinate.tap()
-            
+            try getNormalizedCoordinate(from: params).press(forDuration: pressDuration);
         } catch  {
             throw Error.failedToTapDeviceByCoordinates
         }
@@ -77,9 +94,9 @@ extension ActionHandler {
       switch self {
         case .missingTypeTextParam:
           return "Missing text param for type action"
-      case .failedToTapDeviceByCoordinates:
-        return "Failed to perform tap action by coordinates"
-      }
+        case .failedToTapDeviceByCoordinates:
+          return "Failed to perform tap action by coordinates"
+        }
     }
   }
 }

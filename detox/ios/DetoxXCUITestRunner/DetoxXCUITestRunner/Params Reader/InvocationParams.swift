@@ -158,6 +158,7 @@ extension InvocationParams {
   enum Action: String, Codable {
     case tap
     case coordinateTap
+    case coordinateLongPress
     case typeText
     case replaceText
     case clearText

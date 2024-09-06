@@ -3,7 +3,7 @@ const debug = require('../../utils/debug'); // debug utils, leave here even if u
 const log = require('../../utils/logger').child({ cat: 'device' });
 const traceMethods = require('../../utils/traceMethods');
 const wrapWithStackTraceCutter = require('../../utils/wrapWithStackTraceCutter');
-const mapLongPressArguments = require('../../utils/mapLongPressArguments');
+const mapDeviceLongPressArguments = require('../../utils/mapDeviceLongPressArguments');
 
 const LaunchArgsEditor = require('./utils/LaunchArgsEditor');
 
@@ -288,10 +288,10 @@ class RuntimeDevice {
     await this.deviceDriver.tap(point, shouldIgnoreStatusBar, this._bundleId);
   }
 
-  async longPress(arg1, arg2) {
-    let { point, duration } = mapLongPressArguments(arg1, arg2);
+  async longPress(arg1, arg2, arg3) {
+    let { point, duration, shouldIgnoreStatusBar } = mapDeviceLongPressArguments(arg1, arg2, arg3);
 
-    await this.deviceDriver.longPress(point, duration);
+    await this.deviceDriver.longPress(point, duration, shouldIgnoreStatusBar, this._bundleId);
   }
 
   async setLocation(lat, lon) {

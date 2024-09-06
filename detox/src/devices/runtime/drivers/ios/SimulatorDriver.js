@@ -130,10 +130,19 @@ class SimulatorDriver extends IosDriver {
 
   async tap(point, shouldIgnoreStatusBar, _bundleId) {
     const xcuitestRunner = new XCUITestRunner({ runtimeDevice: {id: this.getExternalId(), _bundleId}});
-    let x = point?.x || 100;
-    let y = point?.y || 100;
+    let x = point?.x ?? 100;
+    let y = point?.y ?? 100;
     const traceDescription = actionDescription.tap({x, y});
     return this.withAction(xcuitestRunner, 'coordinateTap', traceDescription, x.toString(), y.toString());
+  }
+
+  async longPress(point, pressDuration, shouldIgnoreStatusBar, _bundleId) {
+    const xcuitestRunner = new XCUITestRunner({ runtimeDevice: {id: this.getExternalId(), _bundleId}});
+    let x = point?.x ?? 100;
+    let y = point?.y ?? 100;
+    let _pressDuration = pressDuration ? (pressDuration / 1000) : 1;
+    const traceDescription = actionDescription.longPress({x, y}, _pressDuration);
+    return this.withAction(xcuitestRunner, 'coordinateLongPress', traceDescription, x.toString(), y.toString(), _pressDuration.toString());
   }
 
   async setBiometricEnrollment(yesOrNo) {

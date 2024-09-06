@@ -28,7 +28,7 @@ const DeviceTapScreen = () => {
       <View style={{ left: 190, top: 190, position: 'absolute' }}>
         <Button onPress={onPressButton} title="TAP ME" />
       </View>
-      <TouchableOpacity delayLongPress={1500} onLongPress={onPressLongCustom} style={{ left: 150, top: 150, position: 'absolute' }}>
+      <TouchableOpacity delayLongPress={900} onLongPress={onPressLongCustom} style={{ left: 150, top: 150, position: 'absolute' }}>
         <Text>{'TAP LONG TIME'}</Text>
       </TouchableOpacity>
       {shouldShowLongCustomText && <Text>{'Screen Long Custom Duration Pressed'}</Text>}

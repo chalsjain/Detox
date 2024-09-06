@@ -55,7 +55,7 @@ class DeviceDriverBase {
     return '';
   }
 
-  async longPress(arg1, arg2) {
+  async longPress(arg1, arg2, arg3, _bundleId) {
     return '';
   }
 
