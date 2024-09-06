@@ -128,7 +128,7 @@ class SimulatorDriver extends IosDriver {
     await this.emitter.emit('terminateApp', { deviceId: udid, bundleId });
   }
 
-  async tap(point, _bundleId) {
+  async tap(point, shouldIgnoreStatusBar, _bundleId) {
     const xcuitestRunner = new XCUITestRunner({ runtimeDevice: {id: this.getExternalId(), _bundleId}});
     let x = point?.x || 100;
     let y = point?.y || 100;
