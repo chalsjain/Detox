@@ -51,7 +51,11 @@ class DeviceDriverBase {
     return '';
   }
 
-  async tap(point, _bundleId) {
+  async tap(point, shouldIgnoreStatusBar, _bundleId) {
+    return '';
+  }
+
+  async longPress(arg1, arg2) {
     return '';
   }
 
@@ -224,6 +228,10 @@ class DeviceDriverBase {
   }
 
   async captureViewHierarchy() {
+    return '';
+  }
+
+  async generateViewHierarchyXml(_shouldInjectTestIds) {
     return '';
   }
 }

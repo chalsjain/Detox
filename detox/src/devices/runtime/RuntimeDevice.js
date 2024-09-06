@@ -3,6 +3,7 @@ const debug = require('../../utils/debug'); // debug utils, leave here even if u
 const log = require('../../utils/logger').child({ cat: 'device' });
 const traceMethods = require('../../utils/traceMethods');
 const wrapWithStackTraceCutter = require('../../utils/wrapWithStackTraceCutter');
+const mapLongPressArguments = require('../../utils/mapLongPressArguments');
 
 const LaunchArgsEditor = require('./utils/LaunchArgsEditor');
 
@@ -20,6 +21,7 @@ class RuntimeDevice {
       'clearKeychain',
       'disableSynchronization',
       'enableSynchronization',
+      'generateViewHierarchyXml',
       'installApp',
       'installUtilBinaries',
       'launchApp',
@@ -195,6 +197,10 @@ class RuntimeDevice {
     return this.deviceDriver.captureViewHierarchy(name);
   }
 
+  async generateViewHierarchyXml(shouldInjectTestIds = false) {
+    return await this.deviceDriver.generateViewHierarchyXml(shouldInjectTestIds);
+  }
+
   async sendToHome() {
     await this.deviceDriver.sendToHome();
     await this.deviceDriver.waitForBackground();
@@ -278,11 +284,13 @@ class RuntimeDevice {
     await this.deviceDriver.setOrientation(orientation);
   }
 
-  async tap(point) {
-    await this.deviceDriver.tap(point, this._bundleId);
+  async tap(point, shouldIgnoreStatusBar) {
+    await this.deviceDriver.tap(point, shouldIgnoreStatusBar, this._bundleId);
   }
 
-  async longPress(point, duration) {
+  async longPress(arg1, arg2) {
+    let { point, duration } = mapLongPressArguments(arg1, arg2);
+
     await this.deviceDriver.longPress(point, duration);
   }
 

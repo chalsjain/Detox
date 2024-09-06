@@ -818,7 +818,7 @@ describe('Device', () => {
 
   it(`tap() should pass to device driver`, async () => {
     const device = await aValidDevice();
-    const points = {x: 200, y: 200};
+    const points = { x: 200, y: 200 };
     await device.tap(points);
 
     expect(driverMock.driver.tap).toHaveBeenCalledWith(points);
@@ -826,7 +826,7 @@ describe('Device', () => {
 
   it(`longPress() should pass to device driver`, async () => {
     const device = await aValidDevice();
-    const points = {x: 200, y: 200};
+    const points = { x: 200, y: 200 };
     const duration = 2000;
     await device.longPress(points, duration);
 
@@ -984,6 +984,13 @@ describe('Device', () => {
 
     await device.captureViewHierarchy();
     expect(device.deviceDriver.captureViewHierarchy).toHaveBeenCalledWith('capture');
+  });
+
+  it('generateViewHierarchyXml() should return the result of the driver', async () => {
+    driverMock.driver.generateViewHierarchyXml = async () => { return 'xml'; };
+    const device = await aValidDevice();
+    const hierarchy = await device.generateViewHierarchyXml();
+    expect(hierarchy).toEqual('xml');
   });
 
   describe('_isAppRunning (internal method)', () => {
