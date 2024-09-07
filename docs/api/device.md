@@ -420,14 +420,14 @@ if (device.getPlatform() === 'ios') {
 
 Perform a tap at arbitrary coordinates on the device's screen.
 
-#### parameters
+#### tap parameters
 
 | parameter | platform | description | default value
 |  --------  |  -------  |  -------  | -------  |
 | point | Android & IOS | Coordinates in the element's coordinate space | `{x: 100, y: 100}`
 | shouldIgnoreStatusBar | Android | Coordinates will be measured starting from under the status bar. | `true`
 
-#### examples
+#### tap examples
 
 ```js
 
@@ -442,7 +442,7 @@ await device.tap(false);
 
 Perform a long press at arbitrary coordinates on the device's screen. Custom press duration if needed.
 
-#### parameters
+#### longPress parameters
 
 | parameter | platform | description | default value
 |  --------  |  -------  |  -------  | -------  |
@@ -450,7 +450,7 @@ Perform a long press at arbitrary coordinates on the device's screen. Custom pre
 | duration | Android & IOS | Custom press duration time, in milliseconds. | Android: Standard long-press duration.  IOS: 1000 milliseconds.
 | shouldIgnoreStatusBar | Android | Coordinates will be measured starting from under the status bar. | `true`
 
-#### examples
+#### longPress examples
 
 ```js
 

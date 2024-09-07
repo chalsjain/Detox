@@ -54,7 +54,6 @@ class SimulatorDriver extends IosDriver {
       ...(this.index !== undefined && { systemAtIndex: this.index }),
       systemAction: action
     };
-    //traceDescription = actionDescription.full(traceDescription);
 
     return traceInvocationCall(traceDescription, invocation, xcuitestRunner.execute(invocation));
   }

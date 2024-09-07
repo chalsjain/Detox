@@ -17,7 +17,7 @@ class PredicateHandler {
 
   func findElement(using params: InvocationParams) -> XCUIElement {
       guard let predicate = params.predicate else {
-          fatalError("expected ....")
+          fatalError("expected predicate param")
       }
     let query: XCUIElementQuery
 

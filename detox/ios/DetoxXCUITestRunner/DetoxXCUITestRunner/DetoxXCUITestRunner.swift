@@ -26,9 +26,6 @@ final class DetoxXCUITestRunner: XCTestCase {
       appUnderTest: appUnderTest
     )
 
-      
-      // let element = predicateHandler.findElement(using: params)
-
     switch params.type {
       case .systemAction, .webAction:
         try actionHandler.handle(from: params, predicateHandler: predicateHandler)
