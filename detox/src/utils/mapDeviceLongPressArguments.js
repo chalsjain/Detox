@@ -15,7 +15,7 @@ function mapDeviceLongPressArguments(optionalAllParams, optionalDurationOrIgnore
         if (typeof optionalDurationOrIgnoreStatusBar === 'boolean') {
             shouldIgnoreStatusBar = optionalDurationOrIgnoreStatusBar;
         } else {
-            assertUndefined(optionalDurationOrIgnoreStatusBar)
+            assertUndefined(optionalDurationOrIgnoreStatusBar);
         }
         assertUndefined(optionalIgnoreStatusBar);
       } else if (typeof optionalAllParams === 'boolean') {

@@ -51,11 +51,11 @@ class DeviceDriverBase {
     return '';
   }
 
-  async tap(point, shouldIgnoreStatusBar, _bundleId) {
+  async tap(_bundleId) {
     return '';
   }
 
-  async longPress(arg1, arg2, arg3, _bundleId) {
+  async longPress(_bundleId) {
     return '';
   }
 
